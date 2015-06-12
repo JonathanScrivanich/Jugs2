@@ -12,8 +12,9 @@
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
-#include<regex>
 #include <queue>
+#include <sstream>
+#include <string>
 #include "State.cpp"
 
 using namespace std;
@@ -178,12 +179,33 @@ int main(int argc, char * const argv[]) {
 			jug = 'B';
 		if (i == 2 || i = 5)
 			jug = 'C';
-		if (regex_match(argv[i + 1], "$[0-9]+^")
+		/*if (regex_match(argv[i + 1], "$[0-9]+^")
 				and ((((int) argv[i + 1] > 0) and i < 3)
 						or (((int) argv[i + 1] > 0)))) {
 			cerr << "Error: Invalid capacity '" << input[i] << "' for jug A.";
 			return 1;
+		}*/
+		for (int i = 1; i <=3; i++)
+		{
+			if ((istringstream iss(argv[i])) < 0){
+				char jug;
+				if (i == 0)
+				{
+					jug = 'A';
+				}
+				if (i == 1)
+				{
+					jug = 'B';
+				}
+				if (i == 2)
+				{
+					jug = 'C';
+				}
+
+				cerr << "Invalid capacity '" << argv[i] << "' for jug " << jug << endl;
+				return -1;
 		}
+
 	}
 	for (int i = 0; i <= 5; i++) {
 		if (input[i] < input[i + 2]) {
