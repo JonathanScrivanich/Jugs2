@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
+#include<regex>
 #include <queue>
 #include "State.cpp"
 
@@ -45,7 +46,8 @@ vector<State> findPath(State &child) {
 		//not the contents of child.
 		*child = child.parent();
 	}
-	reverse_iterator(optimalPath.begin(), optimalPath.end());
+	reverse(optimalPath.begin(), optimalPath.end());
+	return optimalPath;
 }
 
 void createAdjacencies(State &curr) {
@@ -73,7 +75,7 @@ void createAdjacencies(State &curr) {
 	//C->B
 	if (c != 0 && a != cap.a()) {
 		int amtMoved = min(c, (cap.a() - a));
-		if (!visited[a + amtMoved][b])
+		if (!visited[a][b + amtMoved])
 			q.push(State(a, b + amtMoved, c - amtMoved, curr));
 			//TODO: Update visited to true
 	}
@@ -81,7 +83,7 @@ void createAdjacencies(State &curr) {
 	//A->B
 	if (c != 0 && a != cap.a()) {
 		int amtMoved = min(c, (cap.a() - a));
-		if (!visited[a + amtMoved][b])
+		if (!visited[a - amtMoved][b + amtMoved])
 			q.push(State(a - amtMoved, b, c - amtMoved, curr));
 			//TODO: Update visited to true
 	}
@@ -108,7 +110,6 @@ int main(int argc, char * const argv[]) {
 	if (argc != 7) {
 		cout << "Usage: ./waterjugpuzzle <cap A> <cap B> <cap C> <goal A> <goal B> <goal C>" << endl;
 	}
-
 	//argv from 1 to 3 should contain capacitys for a, b, and c (input[0] ~ input[2])
 	//argv from 4 to 6 should contain goals for a, b, and c (input[3] ~ input [5])
 	int input = { atoi(argv[1]), atoi(argv[2]), atoi(argv[3]), atoi(argv[4]),
@@ -116,7 +117,7 @@ int main(int argc, char * const argv[]) {
 
 	//Error check that all inputs are integers
 	for (int i = 0; i <= 5; i++) {
-		if ((input[i] != int) or input[i] <= 0) {
+		if (regex_match(input[i],"$[0-9]+^") or input[i] <= 0) {
 			cerr << "Error: Invalid capacity '" << input[i] << "' for jug A.";
 			return 1;
 		}
