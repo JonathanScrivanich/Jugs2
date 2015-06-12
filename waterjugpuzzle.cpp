@@ -57,52 +57,60 @@ void createAdjacencies(State &curr) {
 	visited = new bool[cap.a()][cap.b];
 	//gives the outer array a size of the capacity of a and the inner array the capacity size of b
 	// fills each index with false.. slow run time...
-	if (c != 0 && a != cap.a()) {
-		int amtMoved = min(c, (cap.a() - a));
-		if (!visited[a + amtMoved][b])
-			q.push(State(a + amtMoved, b, c - amtMoved, curr));
-			//TODO: Update visited to true
-	}
-	
-	//B->A
-	if (b != 0 && a != cap.a()) {
-		int amtMoved = min(b, (cap.a() - a));
-		if (!visited[a + amtMoved][b])
-			q.push(State(a + amtMoved, b - amtMoved, c, curr));
-			//TODO: Update visited to true
-	}
-	
-	//C->B
-	if (c != 0 && a != cap.a()) {
-		int amtMoved = min(c, (cap.a() - a));
-		if (!visited[a][b + amtMoved])
-			q.push(State(a, b + amtMoved, c - amtMoved, curr));
-			//TODO: Update visited to true
-	}
-	
-	//A->B
-	if (c != 0 && a != cap.a()) {
-		int amtMoved = min(c, (cap.a() - a));
-		if (!visited[a - amtMoved][b + amtMoved])
-			q.push(State(a - amtMoved, b, c - amtMoved, curr));
-			//TODO: Update visited to true
-	}
-	
-	//B->C
-	if (c != 0 && a != cap.a()) {
-		int amtMoved = min(c, (cap.a() - a));
-		if (!visited[a + amtMoved][b])
-			q.push(State(a + amtMoved, b, c - amtMoved, curr));
-			//TODO: Update visited to true
-	}
-	
-	//A->C
-	if (c != 0 && a != cap.a()) {
-		int amtMoved = min(c, (cap.a() - a));
-		if (!visited[a + amtMoved][b])
-			q.push(State(a + amtMoved, b, c - amtMoved, curr));
-			//TODO: Update visited to true
-	}
+	for (int i = 0; i < visited.length; i++)
+		{
+			for (int j = 0; j < visited[i].length; j++)
+			{
+				visited[i][j] = false;
+			}
+		}
+		// fills each index with false.. slow run time...
+		if (c != 0 && a != cap.a()) {
+			int amtMoved = min(c, (cap.a() - a));
+			if (!visited[a + amtMoved][b])
+				q.push(State(a + amtMoved, b, c - amtMoved, curr));
+				//TODO: Update visited to true
+		}
+
+		//B->A
+		if (b != 0 && a != cap.a()) {
+			int amtMoved = min(b, (cap.a() - a));
+			if (!visited[a + amtMoved][b])
+				q.push(State(a + amtMoved, b - amtMoved, c, curr));
+				//TODO: Update visited to true
+		}
+
+		//C->B
+		if (c != 0 && b != cap.b()) {
+			int amtMoved = min(c, (cap.b() - b));
+			if (!visited[a + amtMoved][b])
+				q.push(State(a, b + amtMoved, c - amtMoved, curr));
+				//TODO: Update visited to true
+		}
+
+		//A->B
+		if (a != 0 && b != cap.b()) {
+			int amtMoved = min(a, (cap.b() - b));
+			if (!visited[a + amtMoved][b])
+				q.push(State(a - amtMoved, b + amtMoved, c, curr));
+				//TODO: Update visited to true
+		}
+
+		//B->C
+		if (b != 0 && c != cap.c()) {
+			int amtMoved = min(b, (cap.c() - c));
+			if (!visited[a + amtMoved][b])
+				q.push(State(a, b - amtMoved, c + amtMoved, curr));
+				//TODO: Update visited to true
+		}
+
+		//A->C
+		if (a != 0 && c != cap.c()) {
+			int amtMoved = min(a, (cap.c() - c));
+			if (!visited[a + amtMoved][b])
+				q.push(State(a - amtMoved, b, c + amtMoved, curr));
+				//TODO: Update visited to true
+		}
 }
 
 int main(int argc, char * const argv[]) {
